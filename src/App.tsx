@@ -23,7 +23,7 @@ export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType>(SortType.DEFAULT);
   const [isReversed, setIsReversed] = useState(false);
 
-  const visibleGoods = getPreparedGoods(goodsFromServer, {
+  const preparedGoods = getPreparedGoods(goodsFromServer, {
     sortField,
     isReversed,
   });
@@ -36,6 +36,8 @@ export const App: React.FC = () => {
   const handleReverse = () => {
     setIsReversed(current => !current);
   };
+
+  const showResetButton = isReversed || sortField !== SortType.DEFAULT;
 
   return (
     <div className="section content">
@@ -68,7 +70,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(isReversed || sortField) && (
+        {showResetButton && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -80,7 +82,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map(good => (
+        {preparedGoods.map(good => (
           <li data-cy="Good" key={good}>
             {good}
           </li>
